@@ -12,23 +12,30 @@ const FooterDiv = styled.div`
   height: 18px;
 `;
 
+const FooterDiv2 = styled.div`
+  width: 140px;
+  height: 18px;
+`;
+
 const FooterComponent: React.FC = () => {
   return (
     <FooterWrapper className="bg-black text-white py-4">
       <div className="flex justify-between items-center w-full">
         <div className="flex ml-2">
           <FooterDiv>
-            <a href="/terms" className="mx-2 text-xs">
-              利用規約
-            </a>
-            <Copy className="text-gray-500" />
+            <div className="flex items-center">
+              <div className="text-xs whitespace-nowrap">利用規約</div>
+              <Copy className="ml-1 text-gray-500 w-3 h-3" />
+            </div>
           </FooterDiv>
-          <FooterDiv>
-            <a href="/privacy" className="mx-2 text-xs">
-              プライバシーポリシー
-            </a>
-            <Copy className="text-gray-500" />
-          </FooterDiv>
+          <FooterDiv2>
+            <div className="flex items-center">
+              <div className="text-xs whitespace-nowrap">
+                プライバシーポリシー
+              </div>
+              <Copy className="ml-1 text-gray-500 w-3 h-3" />
+            </div>
+          </FooterDiv2>
         </div>
         <div>
           <span className="mr-2 text-xs">

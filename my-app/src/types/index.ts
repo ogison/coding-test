@@ -1,7 +1,7 @@
 export type FormValues = {
   location: string;
-  year: number;
-  kind: number;
+  year: string;
+  kind: string;
 };
 
 export interface JSONData {
