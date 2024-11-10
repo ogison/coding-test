@@ -101,7 +101,7 @@ type Prop = {
 const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      location: '東京都',
+      place: '東京都',
       year: '2018',
       kind: '1',
     },
@@ -130,7 +130,7 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   </td>
                   <td>
                     <div className="flex justify-end items-center">
-                      <Select {...register('location')} className="p-2 rounded">
+                      <Select {...register('place')} className="p-2 rounded">
                         {kantoPrefectures.map((prefecture) => (
                           <option key={prefecture} value={prefecture}>
                             {prefecture}

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import ChartComponent from './chart-component';
 import { FormValues } from '../types';
 import FormComponent from './form-component';
 import styled from 'styled-components';
 import TitleComponent from './title-component';
+import GraphComponent from './graph-component';
 
 const BackgroundDiv = styled.div`
   background-image: url('/image 20.svg');
@@ -31,7 +31,7 @@ const MainComponent: React.FC = () => {
         <hr className="border-t border-white w-full" />
         <GrapphDiv className="flex py-4 my-2 mt-8">
           <div className="w-4/5">
-            <ChartComponent selectedData={selectedData} />
+            <GraphComponent selectedData={selectedData} />
           </div>
           <FormComponent setSelectedData={setSelectedData} />
         </GrapphDiv>

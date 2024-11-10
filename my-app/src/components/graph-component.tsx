@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -11,8 +11,7 @@ import {
 } from 'chart.js';
 import jsonData from '../data/estate_transactions.json';
 import { FormValues, JSONData } from '../types';
-import { ChartData } from '../types/chart';
-import { CalendarCheck, MapPin, SquareStack } from 'lucide-react';
+import { GraphData } from '../types/chart';
 import styled from 'styled-components';
 import { kindsList } from '../const';
 
@@ -21,9 +20,19 @@ const TitleDiv = styled.div`
   height: 30px;
 `;
 
-const LocationDiv = styled.div`
+const PlaceImg = styled.img`
+  width: 14px;
+  height: 18px;
+`;
+
+const PlaceDiv = styled.div`
   width: 98px;
   height: 30px;
+`;
+
+const YearImg = styled.img`
+  width: 16px;
+  height: 18px;
 `;
 
 const YearDiv = styled.div`
@@ -31,9 +40,19 @@ const YearDiv = styled.div`
   height: 30px;
 `;
 
+const KindsImg = styled.img`
+  width: 18px;
+  height: 18px;
+`;
+
 const KindDiv = styled.div`
   width: 102px;
   height: 30px;
+`;
+
+const GraphDiv = styled.div`
+  width: 660px;
+  height: 446px;
 `;
 
 ChartJS.register(
@@ -47,25 +66,20 @@ ChartJS.register(
 
 const options = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       display: false,
     },
     tooltip: {
-      callbacks: {
-        label: function (context: any) {
-          return ` ${context.raw.toLocaleString()} 円/㎡`;
-        },
-      },
+      enabled: false,
     },
   },
   scales: {
     y: {
       beginAtZero: true,
       title: {
-        display: true,
-        text: '円/㎡',
-        color: '#ffffff',
+        display: false,
       },
       ticks: {
         color: '#ffffff',
@@ -95,6 +109,7 @@ const options = {
         display: true,
         drawBorder: true,
         drawOnChartArea: true,
+        drawTicks: false,
         borderWidth: 2,
       },
     },
@@ -114,10 +129,11 @@ type Prop = {
   selectedData: FormValues | undefined;
 };
 
-const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
+const GraphComponent: React.FC<Prop> = ({ selectedData }) => {
+  const chartRef = useRef<ChartJS<'bar'> | null>(null);
   const [data, setData] = useState<JSONData | null>(null);
   const [averageData, setAverageData] = useState<number>();
-  const [chartData, setChartData] = useState<ChartData>({
+  const [graghData, setGraghData] = useState<GraphData>({
     labels: [jsonData[0].data.result.prefectureCode, '関東平均'],
     datasets: [
       {
@@ -130,12 +146,42 @@ const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
     ],
   });
 
+  const createGradient = (ctx: any, chartArea: any) => {
+    const gradient = ctx.createLinearGradient(
+      0,
+      chartArea.bottom,
+      chartArea.right,
+      0
+    );
+
+    gradient.addColorStop(0.2403, '#009984');
+    gradient.addColorStop(0.7573, '#97BF4A');
+
+    return gradient;
+  };
+
+  const createGradientAverage = (
+    ctx: CanvasRenderingContext2D,
+    chartArea: any
+  ) => {
+    const gradient = ctx.createLinearGradient(
+      0,
+      0,
+      chartArea.right,
+      chartArea.bottom
+    );
+    gradient.addColorStop(0, '#706D65');
+    gradient.addColorStop(0.9992, '#57544C');
+
+    return gradient;
+  };
+
   useEffect(() => {
     const targetData = jsonData
       .filter((entry) => entry.year === Number(selectedData?.year))
       .filter((entry) => entry.type === Number(selectedData?.kind))
       .filter(
-        (entry) => entry.data.result.prefectureName === selectedData?.location
+        (entry) => entry.data.result.prefectureName === selectedData?.place
       );
     setData(targetData[0]);
     const filteredData = jsonData
@@ -153,23 +199,25 @@ const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
   }, [selectedData]);
 
   useEffect(() => {
-    if (data) {
-      const updatedChartData: ChartData = {
+    const chart = chartRef.current;
+    if (data && chart) {
+      const ctx = chart.ctx;
+      const chartArea = chart.chartArea;
+      const gradient = createGradient(ctx, chartArea);
+      const gradientAverage = createGradientAverage(ctx, chartArea);
+      const updatedgraghData: GraphData = {
         labels: [data.data.result.prefectureName, '関東平均'],
         datasets: [
           {
             label: 'Price (円/㎡)',
             data: [data.data.result.years[0].value, averageData ?? 0],
-            backgroundColor: [
-              'rgba(0, 204, 204, 0.8)',
-              'rgba(128, 128, 128, 0.8)',
-            ],
-            borderColor: ['rgba(0, 204, 204, 1)', 'rgba(128, 128, 128, 1)'],
+            backgroundColor: [gradient, gradientAverage],
+            borderColor: [gradient, gradientAverage],
             borderWidth: 1,
           },
         ],
       };
-      setChartData(updatedChartData);
+      setGraghData(updatedgraghData);
     }
   }, [averageData, data]);
 
@@ -179,31 +227,36 @@ const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
 
   return (
     <div className="chart-container flex flex-col items-center">
-      <TitleDiv className="flex text-center space-x-2 items-center justify-between">
-        <LocationDiv>
+      <TitleDiv className="flex text-center space-x-2 items-center justify-between mt-32 mb-4">
+        <PlaceDiv>
           <div className="flex items-center">
-            <MapPin />
-            <p className="text-2xl">{selectedData?.location}</p>
+            <PlaceImg src={'./place-white.svg'} alt="place" />
+            <p className="text-2xl ml-1">{selectedData?.place}</p>
           </div>
-        </LocationDiv>
+        </PlaceDiv>
         <YearDiv>
           <div className="flex items-center">
-            <CalendarCheck />
+            <YearImg src={'./year-white.svg'} alt="year" />
             <p className="text-2xl ml-1">{selectedData?.year}年</p>
           </div>
         </YearDiv>
         <KindDiv>
           <div className="flex items-center">
-            <SquareStack />
+            <KindsImg src={'./kinds-white.svg'} alt="kinds" />
             <p className="text-2xl ml-1">
               {getNameByValue(selectedData?.kind)}
             </p>
           </div>
         </KindDiv>
       </TitleDiv>
-      <Bar data={chartData} options={options} />
+      <div className="flex flex-col">
+        <div className="flex flex-col items-start mr-4"> (円/m&#178;)</div>
+        <GraphDiv className="flex items-center">
+          <Bar ref={chartRef} data={graghData} options={options} />
+        </GraphDiv>
+      </div>
     </div>
   );
 };
 
-export default ChartComponent;
+export default GraphComponent;
