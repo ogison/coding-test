@@ -2,7 +2,19 @@ import { Copy } from 'lucide-react';
 import React from 'react';
 import styled from 'styled-components';
 
+const LogoImage = styled.img`
+  width: 12px;
+  height: 12px;
+`;
+
 const FooterWrapper = styled.footer`
+  background: linear-gradient(
+      0deg,
+      rgba(0, 126, 108, 0.2),
+      rgba(0, 126, 108, 0.2)
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+  background-blend-mode: overlay;
   width: 1920px;
   height: 50px;
 `;
@@ -25,19 +37,28 @@ const FooterComponent: React.FC = () => {
           <FooterDiv>
             <div className="flex items-center">
               <div className="text-xs whitespace-nowrap">利用規約</div>
-              <Copy className="ml-1 text-gray-500 w-3 h-3" />
+              <LogoImage
+                src={'./logo-footer.svg'}
+                alt="logo"
+                className="ml-1"
+              />
             </div>
           </FooterDiv>
           <FooterDiv2>
-            <div className="flex items-center">
+            <div className="flex items-center ml-2">
               <div className="text-xs whitespace-nowrap">
                 プライバシーポリシー
               </div>
-              <Copy className="ml-1 text-gray-500 w-3 h-3" />
+              <LogoImage
+                src={'./logo-footer.svg'}
+                alt="logo"
+                className="ml-1"
+              />
             </div>
           </FooterDiv2>
         </div>
-        <div>
+
+        <div className="flex items-center">
           <span className="mr-2 text-xs">
             &copy; {new Date().getFullYear()} Landit Inc.
           </span>
