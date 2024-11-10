@@ -1,5 +1,5 @@
 export type FormValues = {
-  location: string;
+  place: string;
   year: string;
   kind: string;
 };

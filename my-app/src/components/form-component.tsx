@@ -31,6 +31,11 @@ const PlaceDiv = styled.div`
   white-space: nowrap;
 `;
 
+const PlaceImg = styled.img`
+  width: 11px;
+  height: 14px;
+`;
+
 const YearTr = styled.tr`
   width: 309px;
   height: 88px;
@@ -42,6 +47,11 @@ const YearDiv = styled.div`
   white-space: nowrap;
 `;
 
+const YearImg = styled.img`
+  width: 13px;
+  height: 14px;
+`;
+
 const KindsTr = styled.tr`
   width: 309px;
   height: 88px;
@@ -51,6 +61,11 @@ const KindsDiv = styled.div`
   width: 48px;
   height: 21px;
   white-space: nowrap;
+`;
+
+const KindsImg = styled.img`
+  width: 14px;
+  height: 14px;
 `;
 
 const KindsInput = styled.input`
@@ -86,7 +101,7 @@ type Prop = {
 const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      location: '東京都',
+      place: '東京都',
       year: '2018',
       kind: '1',
     },
@@ -109,13 +124,13 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                 <PlaceTr className="border-b border-gray-300">
                   <td>
                     <PlaceDiv className="flex items-center">
-                      <MapPin />
-                      <span>場所</span>
+                      <PlaceImg src={'./place.svg'} alt="place" />
+                      <span className="ml-1">場所</span>
                     </PlaceDiv>
                   </td>
                   <td>
                     <div className="flex justify-end items-center">
-                      <Select {...register('location')} className="p-2 rounded">
+                      <Select {...register('place')} className="p-2 rounded">
                         {kantoPrefectures.map((prefecture) => (
                           <option key={prefecture} value={prefecture}>
                             {prefecture}
@@ -129,8 +144,8 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                 <YearTr className="border-b border-gray-300">
                   <td>
                     <YearDiv className="flex items-center">
-                      <CalendarCheck />
-                      <span>年度</span>
+                      <YearImg src={'./year.svg'} alt="year" />
+                      <span className="ml-1">年度</span>
                     </YearDiv>
                   </td>
                   <td>
@@ -148,15 +163,18 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
 
                 <KindsTr className="border-b border-gray-300">
                   <td>
-                    <KindsDiv className="flex">
-                      <SquareStack />
-                      <span>種類</span>
+                    <KindsDiv className="flex items-center mb-5">
+                      <KindsImg src={'./kinds.svg'} alt="kinds" />
+                      <span className="ml-1">種類</span>
                     </KindsDiv>
                   </td>
                   <td>
                     <KindsRadioDiv className="flex flex-col justify-end ml-auto">
                       {kindsList.map((kind) => (
-                        <label key={kind.value} className="flex items-center">
+                        <label
+                          key={kind.value}
+                          className="flex items-center mt-1"
+                        >
                           <KindsInput
                             {...register('kind')}
                             type="radio"
