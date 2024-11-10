@@ -14,6 +14,7 @@ import { FormValues, JSONData } from '../types';
 import { ChartData } from '../types/chart';
 import { CalendarCheck, MapPin, SquareStack } from 'lucide-react';
 import styled from 'styled-components';
+import { kindsList } from '../const';
 
 const TitleDiv = styled.div`
   width: 402px;
@@ -100,6 +101,15 @@ const options = {
   },
 };
 
+function getNameByValue(value: string | undefined) {
+  if (!value) {
+    return '';
+  }
+
+  const kind = kindsList.find((item) => item.value === value);
+  return kind ? kind.name : '';
+}
+
 type Prop = {
   selectedData: FormValues | undefined;
 };
@@ -122,8 +132,8 @@ const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
 
   useEffect(() => {
     const targetData = jsonData
-      .filter((entry) => entry.year === selectedData?.year)
-      .filter((entry) => entry.type === selectedData?.kind)
+      .filter((entry) => entry.year === Number(selectedData?.year))
+      .filter((entry) => entry.type === Number(selectedData?.kind))
       .filter(
         (entry) => entry.data.result.prefectureName === selectedData?.location
       );
@@ -173,19 +183,21 @@ const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
         <LocationDiv>
           <div className="flex items-center">
             <MapPin />
-            <p className="text-2xl">{data.data.result.prefectureName}</p>
+            <p className="text-2xl">{selectedData?.location}</p>
           </div>
         </LocationDiv>
         <YearDiv>
           <div className="flex items-center">
             <CalendarCheck />
-            <p className="text-2xl ml-1">{data.year}年</p>
+            <p className="text-2xl ml-1">{selectedData?.year}年</p>
           </div>
         </YearDiv>
         <KindDiv>
           <div className="flex items-center">
             <SquareStack />
-            <p className="text-2xl ml-1">住宅地</p>
+            <p className="text-2xl ml-1">
+              {getNameByValue(selectedData?.kind)}
+            </p>
           </div>
         </KindDiv>
       </TitleDiv>

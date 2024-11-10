@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormValues } from '../types';
 import { CalendarCheck, MapPin, SquareStack } from 'lucide-react';
 import styled from 'styled-components';
+import { kantoPrefectures, kindsList, yearsList } from '../const';
 
 const FormDiv = styled.div`
   background-color: #f0f3f5;
@@ -86,25 +87,10 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       location: '東京都',
-      year: 2018,
-      kind: 1,
+      year: '2018',
+      kind: '1',
     },
   });
-
-  const years = [2015, 2016, 2017, 2018];
-  const kantoPrefectures = [
-    '東京都',
-    '神奈川県',
-    '茨城県',
-    '栃木県',
-    '群馬県',
-    '埼玉県',
-    '千葉県',
-  ];
-  const kindList = [
-    { value: 1, name: '住宅地' },
-    { value: 2, name: '商業地' },
-  ];
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setSelectedData(data);
@@ -129,10 +115,7 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   </td>
                   <td>
                     <div className="flex justify-end items-center">
-                      <Select
-                        {...register('location')}
-                        className="p-2 rounded ml-2"
-                      >
+                      <Select {...register('location')} className="p-2 rounded">
                         {kantoPrefectures.map((prefecture) => (
                           <option key={prefecture} value={prefecture}>
                             {prefecture}
@@ -152,12 +135,9 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   </td>
                   <td>
                     <div className="flex justify-end items-center">
-                      <Select
-                        {...register('year')}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
-                      >
-                        {years.map((year) => (
-                          <option key={year} value={year.toString()}>
+                      <Select {...register('year')} className="w-full p-2">
+                        {yearsList.map((year) => (
+                          <option key={year} value={year}>
                             {year}年
                           </option>
                         ))}
@@ -175,7 +155,7 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   </td>
                   <td>
                     <KindsRadioDiv className="flex flex-col justify-end ml-auto">
-                      {kindList.map((kind) => (
+                      {kindsList.map((kind) => (
                         <label key={kind.value} className="flex items-center">
                           <KindsInput
                             {...register('kind')}
