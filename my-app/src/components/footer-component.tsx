@@ -7,22 +7,31 @@ const FooterWrapper = styled.footer`
   height: 50px;
 `;
 
+const FooterDiv = styled.div`
+  width: 68px;
+  height: 18px;
+`;
+
 const FooterComponent: React.FC = () => {
   return (
     <FooterWrapper className="bg-black text-white py-4">
       <div className="flex justify-between items-center w-full">
         <div className="flex ml-2">
-          <a href="/terms" className="mx-2">
-            利用規約
-          </a>
-          <Copy className="text-gray-500" />
-          <a href="/privacy" className="mx-2">
-            プライバシーポリシー
-          </a>
-          <Copy className="text-gray-500" />
+          <FooterDiv>
+            <a href="/terms" className="mx-2 text-xs">
+              利用規約
+            </a>
+            <Copy className="text-gray-500" />
+          </FooterDiv>
+          <FooterDiv>
+            <a href="/privacy" className="mx-2 text-xs">
+              プライバシーポリシー
+            </a>
+            <Copy className="text-gray-500" />
+          </FooterDiv>
         </div>
         <div>
-          <span className="mr-2">
+          <span className="mr-2 text-xs">
             &copy; {new Date().getFullYear()} Landit Inc.
           </span>
         </div>

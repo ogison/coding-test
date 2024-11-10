@@ -13,6 +13,27 @@ import jsonData from '../data/estate_transactions.json';
 import { FormValues, JSONData } from '../types';
 import { ChartData } from '../types/chart';
 import { CalendarCheck, MapPin, SquareStack } from 'lucide-react';
+import styled from 'styled-components';
+
+const TitleDiv = styled.div`
+  width: 402px;
+  height: 30px;
+`;
+
+const LocationDiv = styled.div`
+  width: 98px;
+  height: 30px;
+`;
+
+const YearDiv = styled.div`
+  width: 106px;
+  height: 30px;
+`;
+
+const KindDiv = styled.div`
+  width: 102px;
+  height: 30px;
+`;
 
 ChartJS.register(
   CategoryScale,
@@ -43,14 +64,37 @@ const options = {
       title: {
         display: true,
         text: '円/㎡',
+        color: '#ffffff',
       },
       ticks: {
+        color: '#ffffff',
         callback: function (value: string | number) {
           if (typeof value === 'number') {
             return `${value.toLocaleString()}`;
           }
           return value;
         },
+      },
+      grid: {
+        color: '#ffffff',
+        borderColor: '#ffffff',
+        display: true,
+        drawBorder: true,
+        drawOnChartArea: false,
+        borderWidth: 2,
+      },
+    },
+    x: {
+      ticks: {
+        color: '#ffffff',
+      },
+      grid: {
+        color: '#ffffff',
+        borderColor: '#ffffff',
+        display: true,
+        drawBorder: true,
+        drawOnChartArea: true,
+        borderWidth: 2,
       },
     },
   },
@@ -79,7 +123,7 @@ const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
   useEffect(() => {
     const targetData = jsonData
       .filter((entry) => entry.year === selectedData?.year)
-      .filter((entry) => entry.type === selectedData?.category)
+      .filter((entry) => entry.type === selectedData?.kind)
       .filter(
         (entry) => entry.data.result.prefectureName === selectedData?.location
       );
@@ -124,15 +168,27 @@ const ChartComponent: React.FC<Prop> = ({ selectedData }) => {
   }
 
   return (
-    <div className="chart-container items-center">
-      <div className="flex text-center mb-4">
-        <MapPin />
-        <p>{data.data.result.prefectureName}</p>
-        <CalendarCheck />
-        <p>{data.year}</p>
-        <SquareStack />
-        <p>住宅地</p>
-      </div>
+    <div className="chart-container flex flex-col items-center">
+      <TitleDiv className="flex text-center space-x-2 items-center justify-between">
+        <LocationDiv>
+          <div className="flex items-center">
+            <MapPin />
+            <p className="text-2xl">{data.data.result.prefectureName}</p>
+          </div>
+        </LocationDiv>
+        <YearDiv>
+          <div className="flex items-center">
+            <CalendarCheck />
+            <p className="text-2xl ml-1">{data.year}年</p>
+          </div>
+        </YearDiv>
+        <KindDiv>
+          <div className="flex items-center">
+            <SquareStack />
+            <p className="text-2xl ml-1">住宅地</p>
+          </div>
+        </KindDiv>
+      </TitleDiv>
       <Bar data={chartData} options={options} />
     </div>
   );
