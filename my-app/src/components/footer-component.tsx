@@ -1,9 +1,15 @@
 import { Copy } from 'lucide-react';
 import React from 'react';
+import styled from 'styled-components';
+
+const FooterWrapper = styled.footer`
+  width: 1920px;
+  height: 50px;
+`;
 
 const FooterComponent: React.FC = () => {
   return (
-    <footer className="bg-black text-white py-4">
+    <FooterWrapper className="bg-black text-white py-4">
       <div className="flex justify-between items-center w-full">
         <div className="flex ml-2">
           <a href="/terms" className="mx-2">
@@ -21,7 +27,7 @@ const FooterComponent: React.FC = () => {
           </span>
         </div>
       </div>
-    </footer>
+    </FooterWrapper>
   );
 };
 
