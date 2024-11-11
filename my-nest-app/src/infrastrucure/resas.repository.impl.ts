@@ -15,7 +15,7 @@ export class ResasRepositoryImpl implements ResasRepository {
     year: number,
     prefectureCode: number,
     type: number,
-  ): Promise<any> {
+  ): Promise<JSONData[]> {
     const data: JSONData[] = JSON.parse(
       fs.readFileSync(this.dataPath, 'utf-8'),
     );

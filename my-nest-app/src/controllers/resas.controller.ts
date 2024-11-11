@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  ParseIntPipe,
-  Query,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import { ResasService } from '../use-cases/resas.service';
 import { ResasQueryDto } from 'src/dto/resas-dto';
 
