@@ -8,15 +8,13 @@ export class ResasController {
   @Get('estateTransaction/bar')
   async getEstateTransactionData(
     @Query('year') year: number,
-    @Query('prefCode') prefCode: number,
-    @Query('cityCode') cityCode: string,
-    @Query('displayType') displayType: number,
+    @Query('prefectureCode') prefectureCode: number,
+    @Query('type') type: number,
   ) {
     return await this.resasService.getEstateTransactionData(
       year,
-      prefCode,
-      cityCode,
-      displayType,
+      prefectureCode,
+      type,
     );
   }
 }

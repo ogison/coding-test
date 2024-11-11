@@ -1,8 +1,8 @@
+export const RESAS_REPOSITORY = Symbol('ResasRepository');
 export interface ResasRepository {
   findByCriteria(
     year: number,
-    prefCode: number,
-    cityCode: string,
-    displayType: number,
+    prefectureCode: number,
+    type: number,
   ): Promise<any>;
 }
