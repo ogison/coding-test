@@ -22,9 +22,9 @@ export class ResasRepositoryImpl implements ResasRepository {
 
     return data.filter(
       (item: JSONData) =>
-        item.year === Number(year) &&
-        item.prefectureCode === Number(prefectureCode) &&
-        item.type === Number(type),
+        item.year === year &&
+        item.prefectureCode === prefectureCode &&
+        item.type === type,
     );
   }
 }

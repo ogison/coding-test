@@ -1,5 +1,12 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  ParseIntPipe,
+  Query,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ResasService } from '../use-cases/resas.service';
+import { ResasQueryDto } from 'src/dto/resas-dto';
 
 @Controller('townPlanning')
 export class ResasController {
@@ -7,14 +14,12 @@ export class ResasController {
 
   @Get('estateTransaction/bar')
   async getEstateTransactionData(
-    @Query('year') year: number,
-    @Query('prefectureCode') prefectureCode: number,
-    @Query('type') type: number,
+    @Query(new ValidationPipe({ transform: true })) query: ResasQueryDto,
   ) {
     return await this.resasService.getEstateTransactionData(
-      year,
-      prefectureCode,
-      type,
+      query.year,
+      query.prefectureCode,
+      query.type,
     );
   }
 }
