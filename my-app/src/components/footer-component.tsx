@@ -1,4 +1,3 @@
-import { Copy } from 'lucide-react';
 import React from 'react';
 import styled from 'styled-components';
 

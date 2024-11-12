@@ -78,8 +78,8 @@ const options = {
   scales: {
     y: {
       beginAtZero: true,
-      title: {
-        display: false,
+      border: {
+        color: '#ffffff',
       },
       ticks: {
         color: '#ffffff',
@@ -92,23 +92,22 @@ const options = {
       },
       grid: {
         color: '#ffffff',
-        borderColor: '#ffffff',
         display: true,
-        drawBorder: true,
         drawOnChartArea: false,
         borderWidth: 2,
       },
     },
     x: {
+      border: {
+        color: '#ffffff',
+      },
       ticks: {
         color: '#ffffff',
       },
       grid: {
         color: '#ffffff',
-        borderColor: '#ffffff',
         display: true,
-        drawBorder: true,
-        drawOnChartArea: true,
+        drawOnChartArea: false,
         drawTicks: false,
         borderWidth: 2,
       },

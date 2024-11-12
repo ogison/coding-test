@@ -1,7 +1,6 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormValues } from '../types';
-import { CalendarCheck, MapPin, SquareStack } from 'lucide-react';
 import styled from 'styled-components';
 import { kantoPrefectures, kindsList, yearsList } from '../const';
 
@@ -125,12 +124,18 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   <td>
                     <PlaceDiv className="flex items-center">
                       <PlaceImg src={'./place.svg'} alt="place" />
-                      <span className="ml-1">場所</span>
+                      <span id="placeLabel" className="ml-1">
+                        場所
+                      </span>
                     </PlaceDiv>
                   </td>
                   <td>
                     <div className="flex justify-end items-center">
-                      <Select {...register('place')} className="p-2 rounded">
+                      <Select
+                        {...register('place')}
+                        className="p-2 rounded"
+                        aria-labelledby="placeLabel"
+                      >
                         {kantoPrefectures.map((prefecture) => (
                           <option key={prefecture} value={prefecture}>
                             {prefecture}
@@ -145,12 +150,18 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   <td>
                     <YearDiv className="flex items-center">
                       <YearImg src={'./year.svg'} alt="year" />
-                      <span className="ml-1">年度</span>
+                      <span id="yearLabel" className="ml-1">
+                        年度
+                      </span>
                     </YearDiv>
                   </td>
                   <td>
                     <div className="flex justify-end items-center">
-                      <Select {...register('year')} className="w-full p-2">
+                      <Select
+                        {...register('year')}
+                        className="w-full p-2"
+                        aria-labelledby="yearLabel"
+                      >
                         {yearsList.map((year) => (
                           <option key={year} value={year}>
                             {year}年
@@ -161,11 +172,13 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   </td>
                 </YearTr>
 
-                <KindsTr className="border-b border-gray-300">
+                <KindsTr>
                   <td>
                     <KindsDiv className="flex items-center mb-5">
                       <KindsImg src={'./kinds.svg'} alt="kinds" />
-                      <span className="ml-1">種類</span>
+                      <span id="kindLabel" className="ml-1">
+                        種類
+                      </span>
                     </KindsDiv>
                   </td>
                   <td>
@@ -192,7 +205,11 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
           </div>
 
           <ButtonWrapper className="flex flex-col justify-end">
-            <Button type="submit" className=" text-white w-full">
+            <Button
+              type="submit"
+              className=" text-white w-full"
+              data-testid="displayButton"
+            >
               表示する
             </Button>
           </ButtonWrapper>
