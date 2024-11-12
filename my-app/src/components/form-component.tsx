@@ -161,7 +161,7 @@ const FormComponent: React.FC<Prop> = ({ setSelectedData }) => {
                   </td>
                 </YearTr>
 
-                <KindsTr className="border-b border-gray-300">
+                <KindsTr>
                   <td>
                     <KindsDiv className="flex items-center mb-5">
                       <KindsImg src={'./kinds.svg'} alt="kinds" />
